@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} | Campus Connect</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #F5F0E8;
+            color: #222;
+        }
+
+        nav {
+            background: #FFFFFF;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 1px solid #E5DED3;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #A67C52;
+        }
+
+        nav a {
+            color: #222;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        .heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-top: 8px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 18px;
+            background: #222;
+            color: #FFF;
+            border-radius: 7px;
+            text-decoration: none;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #A67C52;
+        }
+
+        .table-wrap {
+            background: white;
+            border: 1px solid #E5DED3;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #EEE8DF;
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        th {
+            background: #EDE3D5;
+            color: #333;
+            font-weight: bold;
+        }
+
+        tr:hover td {
+            background: #FCFAF7;
+        }
+
+        .empty {
+            background: white;
+            padding: 35px;
+            border: 1px solid #E5DED3;
+            border-radius: 12px;
+            color: #777;
+            text-align: center;
+        }
+
+        .flash {
+            background: #E4F3E5;
+            color: #205B2B;
+            padding: 13px;
+            border-radius: 7px;
+            margin-bottom: 18px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 94%;
+                margin-top: 24px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">Campus<span>Connect</span></div>
+    <a href="/">← Back to Dashboard</a>
+</nav>
+
+<div class="container">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="heading">
+        <div>
+            <h1>{{ title }}</h1>
+            <p class="subtitle">
+                Manage and view Campus Connect information.
+            </p>
+        </div>
+
+        {% if kind == "students" %}
+            <a href="/register" class="btn">+ Register Student</a>
+        {% elif kind == "jobs" %}
+            <a href="/" class="btn">Explore and Apply</a>
+        {% elif kind == "applications" %}
+            <a href="/jobs" class="btn">View Jobs</a>
+        {% elif kind == "events" %}
+            <a href="/" class="btn">Dashboard</a>
+        {% elif kind == "courses" %}
+            <a href="/" class="btn">Dashboard</a>
+        {% endif %}
+    </div>
+
+    {% if items %}
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    {% if kind == "students" %}
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>College</th>
+                        <th>Course</th>
+                        <th>Year</th>
+
+                    {% elif kind == "jobs" %}
+                        <th>ID</th>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Location</th>
+                        <th>Salary</th>
+                        <th>Description</th>
+
+                    {% elif kind == "applications" %}
+                        <th>ID</th>
+                        <th>Job Title</th>
+                        <th>Applicant Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>College</th>
+                        <th>Course</th>
+                        <th>Year</th>
+                        <th>Skills</th>
+
+                    {% elif kind == "events" %}
+                        <th>ID</th>
+                        <th>Event Name</th>
+                        <th>Date</th>
+                        <th>Venue</th>
+                        <th>Description</th>
+
+                    {% elif kind == "courses" %}
+                        <th>ID</th>
+                        <th>Course Name</th>
+                        <th>Duration</th>
+                        <th>Description</th>
+                    {% endif %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in items %}
+                <tr>
+
+                    {% if kind == "students" %}
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.email }}</td>
+                        <td>{{ item.phone }}</td>
+                        <td>{{ item.college }}</td>
+                        <td>{{ item.course }}</td>
+                        <td>{{ item.year }}</td>
+
+                    {% elif kind == "jobs" %}
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.company }}</td>
+                        <td>{{ item.location }}</td>
+                        <td>{{ item.salary }}</td>
+                        <td>{{ item.description }}</td>
+
+                    {% elif kind == "applications" %}
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.job_title }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.email }}</td>
+                        <td>{{ item.phone }}</td>
+                        <td>{{ item.college }}</td>
+                        <td>{{ item.course }}</td>
+                        <td>{{ item.year }}</td>
+                        <td>{{ item.skills }}</td>
+
+                    {% elif kind == "events" %}
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.date }}</td>
+                        <td>{{ item.venue }}</td>
+                        <td>{{ item.description }}</td>
+
+                    {% elif kind == "courses" %}
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.duration }}</td>
+                        <td>{{ item.description }}</td>
+                    {% endif %}
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+        <h3>No records found</h3>
+        <p style="margin-top: 10px;">
+            Information will appear here when records are available.
+        </p>
+
+        {% if kind == "students" %}
+            <p style="margin-top: 20px;">
+                <a href="/register" class="btn">Register First Student</a>
+            </p>
+        {% elif kind == "jobs" %}
+            <p style="margin-top: 20px;">
+                <a href="/" class="btn">Explore Jobs</a>
+            </p>
+        {% endif %}
+    </div>
+
+    {% endif %}
+
+</div>
+
+<footer>
+    © 2026 Campus Connect | Learn • Connect • Grow
+</footer>
+
+</body>
+</html>

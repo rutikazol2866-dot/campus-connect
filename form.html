@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration | Campus Connect</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #F5F0E8;
+            color: #222;
+            padding: 25px 15px;
+        }
+
+        nav {
+            max-width: 850px;
+            margin: 0 auto 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #A67C52;
+        }
+
+        nav a {
+            color: #222;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: #FFF;
+            padding: 32px;
+            border: 1px solid #E5DED3;
+            border-radius: 15px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #D8D1C7;
+            border-radius: 7px;
+            font-size: 15px;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid #D9C3A5;
+            border-color: #A67C52;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #A67C52;
+        }
+
+        .flash {
+            background: #FCE8E6;
+            color: #922B21;
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 7px;
+        }
+
+        @media (max-width: 550px) {
+            .container {
+                padding: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">Campus<span>Connect</span></div>
+    <a href="/">← Back to Home</a>
+</nav>
+
+<div class="container">
+    <h1>Student Registration</h1>
+    <p class="subtitle">
+        Join Campus Connect and explore jobs, events and courses.
+        Please enter your details below.
+    </p>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/register">
+        <div class="form-grid">
+
+            <div class="field">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name"
+                       placeholder="Enter your full name" required>
+            </div>
+
+            <div class="field">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email"
+                       placeholder="example@gmail.com" required>
+            </div>
+
+            <div class="field">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone"
+                       pattern="[0-9]{10}" maxlength="10"
+                       placeholder="10-digit mobile number"
+                       title="Enter a 10-digit phone number" required>
+            </div>
+
+            <div class="field">
+                <label for="college">College Name</label>
+                <input type="text" id="college" name="college"
+                       placeholder="Enter college name" required>
+            </div>
+
+            <div class="field">
+                <label for="course">Course</label>
+                <select id="course" name="course" required>
+                    <option value="">Select Course</option>
+                    <option value="BCA">BCA</option>
+                    <option value="BBA(CA)">BBA(CA)</option>
+                    <option value="BBA">BBA</option>
+                    <option value="BCS">BCS</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="year">Academic Year</label>
+                <select id="year" name="year" required>
+                    <option value="">Select Year</option>
+                    <option value="First Year">First Year</option>
+                    <option value="Second Year">Second Year</option>
+                    <option value="Third Year">Third Year</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <button type="submit" class="btn">
+                    Register Now
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

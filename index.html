@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusConnect | Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">🎓 CampusConnect</div>
+        <p class="tagline">Connect. Exchange. Save.</p>
+
+        <nav>
+            <a class="active" href="{{ url_for('home') }}">🏠 Dashboard</a>
+            <a href="{{ url_for('register') }}">👤 Student Registration</a>
+            <a href="{{ url_for('students') }}">🎓 Students</a>
+            <a href="{{ url_for('job_list') }}">💼 Jobs</a>
+            <a href="{{ url_for('applications') }}">📄 Applications</a>
+            <a href="{{ url_for('event_list') }}">📅 Events</a>
+            <a href="{{ url_for('course_list') }}">📚 Courses</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <span>🌱</span>
+            <h3>Learn. Connect. Grow.</h3>
+            <p>Your campus journey starts here!</p>
+        </div>
+    </aside>
+
+    <!-- Main Dashboard -->
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <h2>Dashboard</h2>
+                <p>Welcome to your campus community!</p>
+            </div>
+
+            <div class="top-actions">
+                <span class="notification">🔔</span>
+                <div class="profile">
+                    <div class="avatar">S</div>
+                    <div>
+                        <strong>Student</strong>
+                        <small>Campus Member</small>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Welcome Banner -->
+        <section class="welcome-banner">
+            <div class="welcome-text">
+                <span class="welcome-label">YOUR CAMPUS • YOUR COMMUNITY</span>
+                <h1>Welcome to CampusConnect! 👋</h1>
+                <p>
+                    Discover opportunities, explore courses, connect with students,
+                    and stay updated with everything happening on campus.
+                </p>
+                <a class="primary-btn" href="{{ url_for('job_list') }}">
+                    Explore Opportunities →
+                </a>
+            </div>
+
+            <div class="welcome-art">🎓📚</div>
+        </section>
+
+        <!-- Statistics -->
+        <section class="stats-grid">
+
+            <div class="stat-card students-card">
+                <div class="stat-icon">🎓</div>
+                <p>Total Students</p>
+                <h2>{{ stats.students }}</h2>
+                <a href="{{ url_for('students') }}">View Students →</a>
+            </div>
+
+            <div class="stat-card jobs-card">
+                <div class="stat-icon">💼</div>
+                <p>Job Opportunities</p>
+                <h2>{{ stats.jobs }}</h2>
+                <a href="{{ url_for('job_list') }}">Explore Jobs →</a>
+            </div>
+
+            <div class="stat-card events-card">
+                <div class="stat-icon">📅</div>
+                <p>College Events</p>
+                <h2>{{ stats.events }}</h2>
+                <a href="{{ url_for('event_list') }}">View Events →</a>
+            </div>
+
+            <div class="stat-card courses-card">
+                <div class="stat-icon">📚</div>
+                <p>Available Courses</p>
+                <h2>{{ stats.courses }}</h2>
+                <a href="{{ url_for('course_list') }}">View Courses →</a>
+            </div>
+
+        </section>
+
+        <!-- Recent Jobs and Events -->
+        <section class="content-grid">
+            <div class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>💼 Latest Opportunities</h2>
+            <p>Explore jobs and internships</p>
+        </div>
+        <a href="{{ url_for('job_list') }}">View All →</a>
+    </div>
+
+    {% for job in jobs[:4] %}
+    <div class="job-item">
+        <div class="item-icon">💻</div>
+        <div class="item-details">
+            <h3>{{ job.title }}</h3>
+            <p>{{ job.company }} · {{ job.location }}</p>
+            <span class="salary">{{ job.salary }}</span>
+        </div>
+    </div>
+    {% else %}
+    <p class="empty-message">No job opportunities available yet.</p>
+    {% endfor %}
+</div>
+
+            
